@@ -1,9 +1,10 @@
 <template>
-  <button class="square">{{ /* TODO */ }}</button>
+  <button class="square">{{ value }}</button>
 </template>
 
 <script>
 export default {
   name: "Square",
+  props: { value: Number },
 };
 </script>
