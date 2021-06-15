@@ -18,7 +18,7 @@ import Square from "./Square";
 export default {
   name: "Board",
   data() {
-    return { squares: Array(9).fill(null) };
+    return { squares: Array(9).fill(null), xIsNext: true };
   },
   components: {
     Square,
@@ -26,8 +26,9 @@ export default {
   methods: {
     onClick(i) {
       const squares = this.squares.slice();
-      squares[i] = "X";
+      squares[i] = this.xIsNext ? "X" : "O";
       this.squares = squares;
+      this.xIsNext = !this.xIsNext;
     },
   },
 };
