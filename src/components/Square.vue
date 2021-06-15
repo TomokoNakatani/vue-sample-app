@@ -5,10 +5,12 @@
 <script>
 export default {
   name: "Square",
-  props: { value: Number },
+  data() {
+    return { value: null };
+  },
   methods: {
     click() {
-      alert("click");
+      this.value = "X";
     },
   },
 };
