@@ -1,20 +1,13 @@
 <template>
   <div>
     <div class="status">{{ "Next player: X" }}</div>
-    <div class="board-row">
-      <Square :value="0" />
-      <Square :value="1" />
-      <Square :value="2" />
-    </div>
-    <div class="board-row">
-      <Square :value="3" />
-      <Square :value="4" />
-      <Square :value="5" />
-    </div>
-    <div class="board-row">
-      <Square :value="6" />
-      <Square :value="7" />
-      <Square :value="8" />
+    <div class="board-row" v-for="i in 3" :key="i">
+      <Square
+        v-for="j in 3"
+        :key="(i - 1) * 3 + j"
+        :value="squares[(i - 1) * 3 + j - 1]"
+        @on-click="() => onClick((i - 1) * 3 + j - 1)"
+      />
     </div>
   </div>
 </template>
@@ -24,8 +17,18 @@ import Square from "./Square";
 
 export default {
   name: "Board",
+  data() {
+    return { squares: Array(9).fill(null) };
+  },
   components: {
     Square,
+  },
+  methods: {
+    onClick(i) {
+      const squares = this.squares.slice();
+      squares[i] = "X";
+      this.squares = squares;
+    },
   },
 };
 </script>
