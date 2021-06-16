@@ -7,7 +7,7 @@
       <div>{{ status }}</div>
       <ol>
         <li v-for="(step, move) in history" :key="move">
-          <a href="#">
+          <a href="#" @click="() => jumpTo(move)">
             {{ move ? "Move #" + move : "Game start" }}
           </a>
         </li>
@@ -26,7 +26,11 @@ export default {
     Board,
   },
   data() {
-    return { history: [{ squares: Array(9).fill(null) }], xIsNext: true };
+    return {
+      history: [{ squares: Array(9).fill(null) }],
+      xIsNext: true,
+      stepNumber: 0,
+    };
   },
   methods: {
     winner() {
@@ -42,11 +46,16 @@ export default {
       squares[i] = this.xIsNext ? "X" : "O";
       this.history = history.concat([{ squares: squares }]);
       this.xIsNext = !this.xIsNext;
+      this.stepNumber = history.length;
     },
     currentHistory() {
       const history = this.history;
-      const current = history[history.length - 1];
+      const current = history[this.stepNumber];
       return current;
+    },
+    jumpTo(step) {
+      this.stepNumber = step;
+      this.xIsNext = step % 2 ? false : true;
     },
   },
   computed: {
@@ -57,7 +66,7 @@ export default {
     },
     squares() {
       const history = this.history;
-      const current = history[history.length - 1];
+      const current = history[this.stepNumber];
       return current.squares;
     },
   },
