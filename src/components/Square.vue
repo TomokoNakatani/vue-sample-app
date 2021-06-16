@@ -8,7 +8,7 @@ export default {
   props: { value: String },
   methods: {
     click() {
-      this.$emit("on-click", this.value);
+      this.$emit("on-click");
     },
   },
 };
