@@ -38,8 +38,7 @@ export default {
     },
     onClick(i) {
       const history = this.history;
-      const current = history[history.length - 1];
-      const squares = current.squares.slice();
+      const squares = this.squares.slice();
       if (calculateWinner(squares) || squares[i]) {
         return;
       }
@@ -47,11 +46,6 @@ export default {
       this.history = history.concat([{ squares: squares }]);
       this.xIsNext = !this.xIsNext;
       this.stepNumber = history.length;
-    },
-    currentHistory() {
-      const history = this.history;
-      const current = history[this.stepNumber];
-      return current;
     },
     jumpTo(step) {
       this.stepNumber = step;
