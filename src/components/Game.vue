@@ -30,13 +30,6 @@ export default {
   components: {
     Board, // importしたBoardコンポーネントを定義する
   },
-  data() {
-    return {
-      history: [{ squares: Array(9).fill(null) }], // 9マスの初期値にnullを入れたsquaresを、historyに配列として渡す
-      xIsNext: true, // xIsNextの初期値をtrueにする
-      stepNumber: 0, // stepNumberの初期値を0にする
-    };
-  },
   methods: {
     // 勝敗を判断するためのwinnerメソッド
     winner() {
@@ -50,14 +43,14 @@ export default {
         return;
       }
       squares[i] = this.xIsNext ? "X" : "O"; // xIsNextがtrueであればX、falseであればOをsquares[i]に代入する
-      this.history = this.history.concat([{ squares: squares }]); // historyとsquaresのハッシュの配列を結合した配列をhistoryに代入する
-      this.xIsNext = !this.xIsNext; // 次のターンのOXを反転させるために、xIsNextのboolean値を反対にする
-      this.stepNumber = this.history.length - 1; // 現在のターンのマスを判定するために、stepNumberにhistoryの長さ-1した値を代入する
+      this.$store.dispatch("updateHistory", squares);
+      this.$store.dispatch("toggleXIsNext");
+      this.$store.dispatch("updateStepNumber");
     },
     // クリックした履歴の状態まで戻るjumpToメソッド
     jumpTo(step) {
-      this.stepNumber = step; // stepNumberに引数のstepを代入する
-      this.xIsNext = step % 2 ? false : true; // 引数のstepが2で割り切れる場合はtrue、割り切れない場合はfalseをxIsNextに代入する
+      this.$store.state.stepNumber = step; // stepNumberに引数のstepを代入する
+      this.$store.state.xIsNext = step % 2 ? false : true; // 引数のstepが2で割り切れる場合はtrue、割り切れない場合はfalseをxIsNextに代入する
     },
   },
   computed: {
@@ -69,7 +62,13 @@ export default {
     },
     // 選択されているマスを判断するsquaresメソッド
     squares() {
-      return this.history[this.stepNumber].squares; // 要素数がstepNumberのhistoryのsquaresを返す
+      return this.$store.getters.getCurrentSquares;
+    },
+    history() {
+      return this.$store.getters.getHistory;
+    },
+    xIsNext() {
+      return this.$store.getters.getXIsNext;
     },
   },
 };
