@@ -49,8 +49,8 @@ export default {
     },
     // クリックした履歴の状態まで戻るjumpToメソッド
     jumpTo(step) {
-      this.$store.state.stepNumber = step; // stepNumberに引数のstepを代入する
-      this.$store.state.xIsNext = step % 2 ? false : true; // 引数のstepが2で割り切れる場合はtrue、割り切れない場合はfalseをxIsNextに代入する
+      this.$store.dispatch("updateStepNumber", step);
+      this.$store.dispatch("toggleXIsNext", step);
     },
   },
   computed: {

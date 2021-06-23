@@ -8,4 +8,10 @@ export const mutations = {
   updateStepNumber(state) {
     state.stepNumber = state.history.length - 1;
   },
+  updateStepNumberWithStep(state, step) {
+    state.stepNumber = step;
+  },
+  toggleXIsNextWithStep(state, step) {
+    state.xIsNext = step % 2 ? false : true;
+  },
 };
